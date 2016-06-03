@@ -20,20 +20,21 @@ import { CaloriePipe } from './calorie.pipe';
           <option value="min">MINIMUM</option>
         </select>
       calories</label>
-      <input id="search" #findCalorie>
+      <input id="search" #findCalorie placholder="500">
       <button (click)="setFilter(findCalorie.value, queryStyle.value)">search</button>
     </form>
-    <a (click)="setFilter(100, all)">See All</a>
-    <div>
+      <p (click)="setFilter()">See All</p>
 
-    <meal *ngFor="#meal of mealList | calorie:filter" [currentMeal]="meal"
-    (editMeal)="mealClicked($event)"
-    [class.selected]="meal === selectedMeal"
-    (deleteMeal)="destroyMeal($event)"
-    >
-    </meal>
-    <edit-meal *ngIf="selectedMeal" [currentMeal]="selectedMeal" (unselect)=mealUnClicked()></edit-meal>
-    <add-meal *ngIf="!selectedMeal" (newMeal)="addMeal($event)"></add-meal>
+    <div>
+      <meal *ngFor="#meal of mealList | calorie:filter" [currentMeal]="meal"
+      (editMeal)="mealClicked($event)"
+      [class.selected]="meal === selectedMeal"
+      (deleteMeal)="destroyMeal($event)"
+      ></meal>
+
+      <edit-meal *ngIf="selectedMeal" [currentMeal]="selectedMeal" (unselect)=mealUnClicked()></edit-meal>
+
+      <add-meal *ngIf="!selectedMeal" (newMeal)="addMeal($event)"></add-meal>
     </div>
 
   `
@@ -52,7 +53,7 @@ export class MealListComponent {
     if(style===undefined){
       style ="all"
     }
-
+    console.log(this.mealList)
     this.filter = query + ";-)" + style ;
   }
 

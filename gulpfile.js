@@ -12,7 +12,8 @@ var lib = require('bower-files')({
       "main": [
         "less/bootstrap.less",
         "dist/css/bootstrap.css",
-        "dist/js/bootstrap.js"
+        "dist/js/bootstrap.js",
+        "dist/fonts/*"
       ]
     }
   }
@@ -76,7 +77,16 @@ gulp.task('cssBower', ['cssBowerClean'], function() {
     .pipe(gulp.dest('./build/css'));
 });
 
-gulp.task('bower', ['jsBower', 'cssBower']);
+gulp.task('fontBowerClean', function(){
+  return del(['./build/font/*']);
+});
+
+gulp.task('bowerFont', ['fontBowerClean'], function () {
+  return gulp.src(lib.ext(['eot', 'ttf', 'svg', 'woff', 'woff2']).files)
+    .pipe(gulp.dest('./build/fonts'));
+});
+
+gulp.task('bower', ['jsBower', 'cssBower', 'bowerFont']);
 
 ////////////////////// SASS //////////////////////
 

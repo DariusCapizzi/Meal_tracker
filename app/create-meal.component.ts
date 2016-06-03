@@ -21,19 +21,23 @@ import * as moment from 'moment';
 
       <div class="calendar">
         <label>Time Eaten</label>
-        <input type="time"  #hour value="10" placholder="10">
-        <datepicker #date [(ngModel)]="dt" [minDate]="minDate" [showWeeks]="true"></datepicker>
+        <input type="time"  #hour  value="18:00">
+        <datepicker #date (ngModel)="dt" [minDate]="minDate" [showWeeks]="true"></datepicker>
       </div>
 
-      <button (click)="createMeal(name.value, detail.value, calorie.value, hour.value, date.value)">Add</button>
+      <button (click)="createMeal(name.value, detail.value, calorie.value, hour.value, date)">Add</button>
     </form>
   `
 })
 
 export class CreateMealComponent {
-  selected: boolean = false;
   newMeal: EventEmitter<Meal> = new EventEmitter();
-  createMeal(name: string, detail: string, calorie: number) {
-    this.newMeal.emit(new Meal(name, detail, calorie));
+  createMeal(name: string, detail: string, calorie: number, hour: string, date) {
+    // console.log(date)
+    if(date._activeDate === undefined){
+      this.newMeal.emit(new Meal(name, detail, calorie, hour, date._now));
+    } else {
+      this.newMeal.emit(new Meal(name, detail, calorie, hour, date._activeDate));
+    }
   }
 }

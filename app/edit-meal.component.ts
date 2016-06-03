@@ -21,8 +21,8 @@ import * as moment from 'moment';
       <input type="text" [(ngModel)]="currentMeal.calories">
       <div class="calendar">
         <label>Time Eaten</label>
-        <input type="time"  #hour value="10" placholder="10">
-        <datepicker #date [(ngModel)]="dt" [minDate]="minDate" [showWeeks]="true"></datepicker>
+        <input type="time"  #hour  [(ngModel)]="currentMeal.hour" value="18:00">
+        <datepicker #date [(ngModel)]="currentMeal.date" [minDate]="minDate" [showWeeks]="true"></datepicker>
       </div>
     </form>
   `

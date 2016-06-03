@@ -9,7 +9,9 @@ import { Meal } from './meal.model';
 
     <div class="meal" style="display: inline-block" (click)="changeMeal(currentMeal)"> <span class="meal-name">Meal: {{currentMeal.mealName}} </span><br>
     <span class="details">Details: {{currentMeal.details}}</span><br>
-    <span class="calories">Calories: {{currentMeal.calories}} </span>
+    <span class="calories">Calories: {{currentMeal.calories}} </span> <br>
+    <span class="hour">Consumed At: {{currentMeal.hour}} </span> <br>
+    <span class="date">{{currentMeal.date}} </span>
     </div>
     <span (click)="removeMeal(currentMeal)">X</span>
     <br>
