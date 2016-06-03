@@ -18,7 +18,8 @@ export class AppComponent {
   constructor(){
     this.meals.push(
       new Meal('ham', 'salty', 400, "18:00", "Fri Jun 03 2016 15:47:29 GMT-0700 (PDT)"),
-      new Meal('telivision', 'misspelled', 401, "23:54 ", "Fri Apr 01 2016 00:00:00 GMT-0700 (PDT)"),
+      new Meal('arghh', 'murder', 5001, "23:54", "Fri Jun 03 2016 15:47:29 GMT-0700 (PDT)"),
+      new Meal('telivision', 'misspelled', 401, "23:54", "Fri Apr 01 2016 00:00:00 GMT-0700 (PDT)"),
       new Meal('no worries', 'failure guarenteed', 506, "18:00", "Tue Jul 05 2016 00:00:00 GMT-0700 (PDT)")
     )
   }

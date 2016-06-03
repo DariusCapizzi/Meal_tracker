@@ -8,6 +8,7 @@ import { Meal } from './meal.model';
 
 export class CaloriePipe implements PipeTransform {
   transform(input: Meal[], args) {
+    console.log("caloriesPIpE")
 
     var desiredCalorie = args.split(";-)");
 

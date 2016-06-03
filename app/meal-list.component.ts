@@ -4,13 +4,14 @@ import { CreateMealComponent } from './create-meal.component';
 import { EditMealComponent } from './edit-meal.component';
 import { Meal } from './meal.model';
 import { CaloriePipe } from './calorie.pipe';
+import { DatePipe } from './date.pipe';
 
 
 
 @Component({
   selector: 'meal-list',
   inputs: ['mealList'],
-  pipes: [CaloriePipe],
+  pipes: [CaloriePipe, DatePipe],
   directives: [ MealComponent, CreateMealComponent, EditMealComponent],
   template: `
     <form>
@@ -19,14 +20,20 @@ import { CaloriePipe } from './calorie.pipe';
           <option selected value="max">MAXIMUM</option>
           <option value="min">MINIMUM</option>
         </select>
-      calories</label>
-      <input id="search" #findCalorie placholder="500">
-      <button (click)="setFilter(findCalorie.value, queryStyle.value)">search</button>
+        <select #whatPipe>
+          <option selected value="calorie">calories</option>
+          <option value="date">date</option>
+        </select>
+      </label>
+
+      <input id="search" #query placholder="500">
+
+      <button (click)="setFilter(query.value, queryStyle.value)">search</button>
     </form>
       <p (click)="setFilter()">See All</p>
 
     <div>
-      <meal *ngFor="#meal of mealList | calorie:filter" [currentMeal]="meal"
+      <meal *ngFor="#meal of mealList | calorie:filter | date:filter" [currentMeal]="meal"
       (editMeal)="mealClicked($event)"
       [class.selected]="meal === selectedMeal"
       (deleteMeal)="destroyMeal($event)"
@@ -43,17 +50,22 @@ import { CaloriePipe } from './calorie.pipe';
 export class MealListComponent {
 
   mealList: Meal[];
+  whichPipe: string = "calorie";
   selectedMeal: Meal;
   filter: string = '402;-)max';
   addMeal(meal: Meal) {
     this.mealList.push(meal);
   }
 
+  getPipe(){
+    return "calorie"
+  }
+
+
   setFilter(query: string, style: string){
     if(style===undefined){
       style ="all"
     }
-    console.log(this.mealList)
     this.filter = query + ";-)" + style ;
   }
 
