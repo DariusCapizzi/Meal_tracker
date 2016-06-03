@@ -17,8 +17,11 @@ import { CaloriePipe } from './calorie.pipe';
       <button (click)="setFilter(findCalorie.value)">search</button>
     </form>
     <div>
-    <meal *ngFor="#meal of mealList" [currentMeal]="meal">
+    <meal *ngFor="#meal of mealList | calorie:filter" [currentMeal]="meal"
+    (click)="mealClicked(meal)"
+    [class.selected]="meal === selectedMeal">
     </meal>
+    <edit-meal *ngIf="selectedMeal" [currentMeal]="selectedMeal"></edit-meal>
     <add-meal (newMeal)="addMeal($event)"></add-meal>
     </div>
   `
@@ -26,11 +29,15 @@ import { CaloriePipe } from './calorie.pipe';
 
 export class MealListComponent {
   mealList: Meal[];
-  filter: string = '';
+  selectedMeal: Meal;
+  filter: string = '1000';
   addMeal(meal: Meal) {
     this.mealList.push(meal);
   }
   setFilter(query: string){
     this.filter = query;
+  }
+  mealClicked(clickedMeal: Meal): void {
+    this.selectedMeal = clickedMeal;
   }
 }

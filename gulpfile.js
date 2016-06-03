@@ -30,6 +30,9 @@ var shell = require('gulp-shell');
 // sass dependencies.
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
+var postcss = require('gulp-postcss');
+var autoprefixer = require('autoprefixer');
+var lost = require('lost');
 
 
 
@@ -78,16 +81,20 @@ gulp.task('bower', ['jsBower', 'cssBower']);
 ////////////////////// SASS //////////////////////
 
 gulp.task('sassBuild', function() {
-  return gulp.src(['resources/styles/*'])
+  var processors = [ autoprefixer, lost
+  ];
+  return gulp.src('resources/stylesheets/*.scss')
+    .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.init())
-    .pipe(sass())
-    .pipe(sourcemaps.write())
+    .pipe(postcss(processors))
+    .pipe(sourcemaps.write('./'))
+    .pipe(concat('styles.css'))
     .pipe(gulp.dest('./build/css'));
 });
 
 ////////////////////// SERVER //////////////////////
 
-gulp.task('serve', function() {
+gulp.task('serve', ['build'], function() {
   browserSync.init({
     server: {
       baseDir: "./",
@@ -96,7 +103,7 @@ gulp.task('serve', function() {
   });
   gulp.watch(['resources/js/*.js'], ['jsBuild']); // vanilla js changes, reload.
   gulp.watch(['*.html'], ['htmlBuild']); // html changes, reload.
-  gulp.watch(['resources/styles/*.css', 'resources/styles/*.scss'], ['cssBuild']); // css or sass changes, concatenate all css/sass, build, reload.
+  gulp.watch(['resources/stylesheets/*.scss'], ['cssBuild']); // css or sass changes, concatenate all css/sass, build, reload.
   gulp.watch(['app/*.ts'], ['tsBuild']); // typescript files change, compile then reload.
 });
 
@@ -125,6 +132,9 @@ gulp.task('build', ['ts'], function(){
   gulp.start('sassBuild');
 });
 
+//Default Task to do everything
+gulp.task('default', ['serve']);
+
 ////////////////////// SETUP NOTES //////////////////////
 
 /*
@@ -134,7 +144,7 @@ gulp.task('build', ['ts'], function(){
 - install globals if needed (gulp, bower, sass, typescript, typescript packages.)
   - npm install gulp -g
   - npm install bower -g
-  - gem install sass
+  - npm install tsd - g  //Type definition manager for typescript. Visit DefinitelyTyped on github for more types
   - npm install typescript -g
   - apm install atom-typescript
 - gulp build
