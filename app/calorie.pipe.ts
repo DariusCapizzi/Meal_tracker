@@ -11,7 +11,7 @@ export class CaloriePipe implements PipeTransform {
     var desiredCalorie = args[0];
 
     return input.filter((meal) => {
-      return meal.calories < desiredCalorie;
+      return meal.calories < parseInt(desiredCalorie);
     });
   }
 }
