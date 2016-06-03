@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform} from 'angular2/core';
+import { Pipe, PipeTransform} from '@angular/core';
 import { Meal } from './meal.model';
 
 @Pipe({
@@ -8,10 +8,25 @@ import { Meal } from './meal.model';
 
 export class CaloriePipe implements PipeTransform {
   transform(input: Meal[], args) {
-    var desiredCalorie = args[0];
 
-    return input.filter((meal) => {
-      return meal.calories < parseInt(desiredCalorie);
-    });
+    var desiredCalorie = args.split(";-)");
+
+    if (desiredCalorie[1] === "max"){
+      return input.filter((meal) => {
+        return meal.calories < parseInt(desiredCalorie[0]);
+      });
+    } else if (desiredCalorie[1] === "min") {
+      return input.filter((meal) => {
+        return meal.calories > parseInt(desiredCalorie[0]);
+      });
+    }
+
+    else if (desiredCalorie[1] === "all") {
+      return input.filter((meal) => {
+        return true
+      });
+    }
+
+
   }
 }
