@@ -9,7 +9,7 @@ import { Meal } from './meal.model';
 export class DatePipe implements PipeTransform {
   transform(input: Meal[], args) {
     var currentFilter = args;
-    console.log("DATEPIE")
+    // console.log("DATEPIE")
     return input.filter((meal) => {
       return true
     });
